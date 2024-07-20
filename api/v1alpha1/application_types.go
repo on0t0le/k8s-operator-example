@@ -23,15 +23,6 @@ import (
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
-// ApplicationSpec defines the desired state of Application
-type ApplicationSpec struct {
-	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-
-	// Foo is an example field of Application. Edit application_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
-}
-
 // ApplicationStatus defines the observed state of Application
 type ApplicationStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
@@ -61,4 +52,10 @@ type ApplicationList struct {
 
 func init() {
 	SchemeBuilder.Register(&Application{}, &ApplicationList{})
+}
+
+type ApplicationSpec struct {
+	Image    string `json:"image,omitempty"`
+	Replicas int32  `json:"replicas,omitempty"`
+	Port     int32  `json:"port,omitempty"`
 }
