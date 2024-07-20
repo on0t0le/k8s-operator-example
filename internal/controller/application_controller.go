@@ -104,7 +104,7 @@ func (r *ApplicationReconciler) reconcileCreate(ctx context.Context, app *apertu
 
 func (r *ApplicationReconciler) createOrUpdateDeployment(ctx context.Context, app *apertureiov1alpha1.Application) error {
 	var depl appsv1.Deployment
-	deplName := types.NamespacedName{Name: app.ObjectMeta.Name + "-deployment", Namespace: app.ObjectMeta.Name}
+	deplName := types.NamespacedName{Name: app.ObjectMeta.Name + "-deployment", Namespace: app.ObjectMeta.Namespace}
 	if err := r.Get(ctx, deplName, &depl); err != nil {
 		if !apierrors.IsNotFound(err) {
 			return fmt.Errorf("unable to fetch Deployment: %v", err)
@@ -121,7 +121,7 @@ func (r *ApplicationReconciler) createOrUpdateDeployment(ctx context.Context, ap
 			depl = appsv1.Deployment{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:        app.ObjectMeta.Name + "-deployment",
-					Namespace:   app.ObjectMeta.Name,
+					Namespace:   app.ObjectMeta.Namespace,
 					Labels:      map[string]string{"label": app.ObjectMeta.Name, "app": app.ObjectMeta.Name},
 					Annotations: map[string]string{"imageregistry": "https://hub.docker.com/"},
 					OwnerReferences: []metav1.OwnerReference{
@@ -181,7 +181,7 @@ func (r *ApplicationReconciler) createService(ctx context.Context, app *aperture
 	srv := v1.Service{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      app.ObjectMeta.Name + "-service",
-			Namespace: app.ObjectMeta.Name,
+			Namespace: app.ObjectMeta.Namespace,
 			Labels:    map[string]string{"app": app.ObjectMeta.Name},
 			OwnerReferences: []metav1.OwnerReference{
 				{
